@@ -9,9 +9,9 @@ public class Note {
     private int id;
     private String title;
     private String description;
-    private String priority;
+    private int priority;
 
-    public Note(String title, String description, String priority) {
+    public Note(String title, String description, int priority) {
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -37,11 +37,11 @@ public class Note {
         this.description = description;
     }
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 }
