@@ -1,5 +1,6 @@
 package com.example.mvvm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,15 @@ public class AddNote extends AppCompatActivity {
 
     private EditText ediTextTitle, ediTextDescription;
     private NumberPicker priorityPicker;
+
+    public static final String EXTRA_TITLE =
+            "com.example.mvvm.EXTRA_TITLE";
+
+    public static final String EXTRA_DESCRIPTION =
+            "com.example.mvvm.EXTRA_DESCRIPTION";
+
+    public static final String EXTRA_PRIORITY =
+            "com.example.mvvm.EXTRA_PRIORITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,13 @@ public class AddNote extends AppCompatActivity {
             return;
         }
 
+        Intent data = new Intent();
+        data.putExtra(EXTRA_TITLE, title);
+        data.putExtra(EXTRA_DESCRIPTION, description);
+        data.putExtra(EXTRA_PRIORITY, priority);
+
+        setResult(RESULT_OK, data);
+        finish();
 
     }
 }
