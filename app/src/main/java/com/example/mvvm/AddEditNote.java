@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AddNote extends AppCompatActivity {
+public class AddEditNote extends AppCompatActivity {
 
     private EditText ediTextTitle, ediTextDescription;
     private NumberPicker priorityPicker;
@@ -25,6 +25,8 @@ public class AddNote extends AppCompatActivity {
 
     public static final String EXTRA_PRIORITY =
             "com.example.mvvm.EXTRA_PRIORITY";
+    public static final String EXTRA_ID =
+            "com.example.mvvm.EXTRA_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,15 @@ public class AddNote extends AppCompatActivity {
         priorityPicker.setMaxValue(10);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close_24);
-        setTitle("Add Note");
+
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_ID)) {
+            setTitle("Edit Note");
+            ediTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            ediTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            priorityPicker.setValue(intent.getIntExtra(EXTRA_PRIORITY, 1));
+        } else
+            setTitle("Add Note");
 
     }
 
@@ -75,6 +85,11 @@ public class AddNote extends AppCompatActivity {
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_DESCRIPTION, description);
         data.putExtra(EXTRA_PRIORITY, priority);
+
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if (id != -1) {
+            data.putExtra(EXTRA_ID, id);
+        }
 
         setResult(RESULT_OK, data);
         finish();

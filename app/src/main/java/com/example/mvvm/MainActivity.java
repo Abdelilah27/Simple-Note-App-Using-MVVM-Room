@@ -24,6 +24,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static final int ADD_NOTE_REQUEST = 1;
+    public static final int EDIT_NOTE_REQUEST = 2;
     private NoteViewModel noteViewModel;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddNote.class);
+                Intent intent = new Intent(MainActivity.this, AddEditNote.class);
                 startActivityForResult(intent, ADD_NOTE_REQUEST);
             }
         });
@@ -74,21 +75,46 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
 
+        noteAdapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(Note note) {
+                Intent intent = new Intent(MainActivity.this, AddEditNote.class);
+                intent.putExtra(AddEditNote.EXTRA_TITLE, note.getTitle());
+                intent.putExtra(AddEditNote.EXTRA_DESCRIPTION, note.getDescription());
+                intent.putExtra(AddEditNote.EXTRA_PRIORITY, note.getPriority());
+                intent.putExtra(AddEditNote.EXTRA_ID, note.getId());
+                startActivityForResult(intent, EDIT_NOTE_REQUEST);
+            }
+        });
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(AddNote.EXTRA_TITLE);
-            String description = data.getStringExtra(AddNote.EXTRA_DESCRIPTION);
-            int priority = data.getIntExtra(AddNote.EXTRA_PRIORITY, 1);
+            String title = data.getStringExtra(AddEditNote.EXTRA_TITLE);
+            String description = data.getStringExtra(AddEditNote.EXTRA_DESCRIPTION);
+            int priority = data.getIntExtra(AddEditNote.EXTRA_PRIORITY, 1);
 
             Note note = new Note(title, description, priority);
             noteViewModel.insert(note);
 
             Toast.makeText(this, "Added Successfully", Toast.LENGTH_SHORT).show();
 
+        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(AddEditNote.EXTRA_ID, -1);
+            if (id == -1) {
+                Toast.makeText(this, "Not not Updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String title = data.getStringExtra(AddEditNote.EXTRA_TITLE);
+            String description = data.getStringExtra(AddEditNote.EXTRA_DESCRIPTION);
+            int priority = data.getIntExtra(AddEditNote.EXTRA_PRIORITY, 1);
+            Note note = new Note(title, description, priority);
+            note.setId(id);
+            noteViewModel.update(note);
+            Toast.makeText(this, "Note Updated Successfully", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Note not Saved", Toast.LENGTH_SHORT).show();
         }
