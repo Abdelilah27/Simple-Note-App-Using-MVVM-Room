@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".AddNote">
+
+    <EditText
+        android:id="@+id/ediTextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Titre"
+        android:inputType="text"></EditText>
+
+    <EditText
+        android:id="@+id/ediTextDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:inputType="textMultiLine"></EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Priority"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"></TextView>
+
+    <NumberPicker
+        android:id="@+id/priorityPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ></NumberPicker>
+
+
+</LinearLayout>
