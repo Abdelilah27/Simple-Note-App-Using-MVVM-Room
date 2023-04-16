@@ -34,7 +34,7 @@ This is a simple Note App built using the MVVM architecture pattern, Room databa
 2. Open the project in Android Studio
 3. Build and run the app on your device or emulator
 
-## Credit
+## Credits
 
 Based on Coding in Flow tutorial: https://www.youtube.com/watch?v=ARpn-1FPNE4&list=PLrnPJCHvNZuDihTpkRs6SpZhqgBqPU118
 
